@@ -3,7 +3,7 @@ import pandas as pd
 import tensorflow as tf
 from PIL import Image
 
-def predictor(img, csv_path, model_path, crop_image=False):
+def predictor(img, csv_path, model_path):
     # Read in the CSV file
     class_df = pd.read_csv(csv_path)
     img_height = int(class_df['height'].iloc[0])
