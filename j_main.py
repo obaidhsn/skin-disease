@@ -36,9 +36,32 @@ class CaptureScreen(Screen):
 
     def load_uploaded_image(self, file_chooser, selected_file, _):
         # Check if the selected file is a JPEG or PNG image
-        if selected_file and (os.path.splitext(selected_file[0])[1].lower() == '.jpeg' or \
-            os.path.splitext(selected_file[0])[1].lower() == '.png' or \
-            os.path.splitext(selected_file[0])[1].lower() == '.jpg'):
+        def load_uploaded_image(self, file_chooser, selected_file):
+        if platform() == 'android':
+            from android.activity import PythonActivity
+            from jnius import autoclass
+            
+            # Define the intent action for picking an image
+            Intent = autoclass('android.content.Intent')
+            intent = Intent()
+            intent.setAction(Intent.ACTION_GET_CONTENT)
+            intent.setType("image/*")
+            
+            # Start the activity to pick an image
+            result = PythonActivity.mActivity.startActivityForResult(intent, 0)
+            
+            # Retrieve the selected image URI from the result
+            if result and result.getResultCode() == -1:  # RESULT_OK
+                uri = result.getData().getDataString()
+                selected_file = uri
+            else:
+                print("No image selected.")
+                return
+        
+        # Check if the selected file is a JPEG, PNG, or JPG image
+        if selected_file and (selected_file.endswith('.jpeg') or
+                               selected_file.endswith('.png') or
+                               selected_file.endswith('.jpg')):
             butterflies = [
                 'BA- cellulitis', 
                 'BA-impetigo', 
@@ -60,7 +83,7 @@ class CaptureScreen(Screen):
             img_arr = np.expand_dims(img_arr, axis=0)
             preds = dict(zip(butterflies, list(model_to_pred.pred(img_arr)[0])))
             best = max(preds, key=preds.get)
-            App.get_running_app().show_result(selected_file[0], best, str(preds[best]*100))
+            App.get_running_app().show_result(selected_file, best, str(preds[best]*100))
         else:
             print("Please select a JPEG, JPG or PNG image.")
 
