@@ -11,6 +11,7 @@ from kivy.uix.filechooser import FileChooserIconView
 from kivy.uix.popup import Popup
 from predictor import predictor  # Assuming predictor function is in predictor.py file
 from jinus import TensorFlowModel
+from kivy.utils import platform
 
 # Set window size
 Window.size = (800, 600)
