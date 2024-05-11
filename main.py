@@ -38,7 +38,7 @@ class CaptureScreen(Screen):
         if selected_file and (os.path.splitext(selected_file[0])[1].lower() == '.jpeg' or \
             os.path.splitext(selected_file[0])[1].lower() == '.png' or \
             os.path.splitext(selected_file[0])[1].lower() == '.jpg'):
-            class_name, probability = predictor(selected_file[0], "class_dict.csv", "model.h5")
+            class_name, probability = predictor(selected_file[0], "class_dict.csv", "model.tflite")
             App.get_running_app().show_result(selected_file[0], class_name, probability)
         else:
             print("Please select a JPEG, JPG or PNG image.")
