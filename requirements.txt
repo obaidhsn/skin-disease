@@ -1,5 +1,5 @@
-kivy==2.3.0
-opencv-python==4.9.0
-pandas==2.2.2
-numpy==1.26.4
-tensorflow==2.15.0
+kivy
+pillow
+pandas
+numpy
+tensorflow
